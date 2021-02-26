@@ -40,6 +40,7 @@ app.use(middlewares.errorsMiddleware);
 
 app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
 
+app.use('/auth', require('./controllers/auth'));
 app.use('/users', require('./controllers/users'));
 app.use('/comments', require('./controllers/comments'));
 
