@@ -10,4 +10,5 @@ class BaseError extends Error {
 
 module.exports.QueriesCreateError = class QueriesCreateError extends BaseError {};
 module.exports.NotFound = class NotFound extends BaseError{};
-// module.exports.TokenCreateError = class TokenCreateError extends BaseError{};
+module.exports.UserCreateError = class UserCreateError extends BaseError{};
+module.exports.CommentsCreateError = class CommentsCreateError extends BaseError{};

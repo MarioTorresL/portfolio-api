@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('Comments', {
-      name: {
-        type: Sequelize.STRING,
+  const Comment = sequelize.define('Comment', {
+      title: {
+        type: DataTypes.STRING,
         allowNull: false
       },
       comment: {
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         allowNull: false
       },
       UserId: {
@@ -14,24 +14,23 @@ module.exports = (sequelize, DataTypes) => {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       },
       deletedAt: {
         allowNull: true,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       }
   }, {
       paranoid: true
   });
 
-  Comments.associate = function(models) {
-    Comments.UserId= Activities.belongsTo(models.Users);
+  Comment.associate = function(models) {
+    Comment.UserId= Comment.belongsTo(models.User);
   }
 
-
-  return Comments;
+  return Comment;
 };

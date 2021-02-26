@@ -38,9 +38,9 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 app.use(middlewares.errorsMiddleware);
 
-app.get('/', (req, res) => res.status(200).json({ status: 200 })) 
+app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
 
-// app.use('/wizard/queries', require('./api/queries'));
-// app.use('/wizard/tokens', require('./api/tokens'));
+app.use('/users', require('./controllers/users'));
+app.use('/comments', require('./controllers/comments'));
 
 module.exports = server;
