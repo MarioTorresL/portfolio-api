@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define('Users', {
       firstName: {
           type: DataTypes.STRING,
           allowNull: false
@@ -24,8 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       timestamps: true,
   });
+  Users.associate = function(models) {
+    Users.hasMany(models.Comments)
+  }
 
-  User.hasTracking();
+  Users.hasTracking();
 
-  return User;
+  return Users;
 };
