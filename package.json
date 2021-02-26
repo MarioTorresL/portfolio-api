@@ -13,9 +13,12 @@
   "license": "ISC",
   "dependencies": {
     "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
+    "helmet": "^4.4.1",
     "jwt-simple": "^0.5.6",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
