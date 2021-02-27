@@ -1,15 +1,33 @@
 const _ = require ('lodash');
-const { UserCreateError } = require('../api/errors');
+const { UserCreateError, NotFound } = require('../api/errors');
 const router = require('express').Router();
 const models = require('../db/models');
 const bcrypt = require('bcrypt');
 
 router.get('/', async(req, res) =>{
   try{
-    record = models.User.findAll({paranoid:false});
-    console.log(record)
-  }catch{
+    records = await models.User.findAll();
+    res.status(200).send(records)
+  }catch(e){
     res.status(400).error(e)
+  }
+})
+
+router.get('/:id', async(req, res) =>{
+  try{
+    record = await models.User.findOne({
+      where:{
+        id:req.params.id
+      }
+    })
+
+    if(record){
+      res.status(200).send(record.toJSON());
+    }else{
+      res.error(new NotFound('User not found'))
+    }
+  }catch(e){
+    res.status(400).error(e);
   }
 })
 

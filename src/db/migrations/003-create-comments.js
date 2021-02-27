@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false
       },
       comment: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: false
       },
       createdAt: {
@@ -32,6 +32,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('COmments');
+    return queryInterface.dropTable('Comments');
   }
 };

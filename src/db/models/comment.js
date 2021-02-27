@@ -5,24 +5,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       comment: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
       },
       UserId: {
           type: DataTypes.INTEGER,
           allowNull: false
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: DataTypes.DATE
-      },
-      deletedAt: {
-        allowNull: true,
-        type: DataTypes.DATE
       }
   }, {
       paranoid: true

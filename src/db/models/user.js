@@ -21,8 +21,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
       },
   }, {
-      paranoid: true,
-      timestamps: true,
+      paranoid: true
   });
   User.associate = function(models) {
     User.hasMany(models.Comment)
