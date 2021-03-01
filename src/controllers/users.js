@@ -98,37 +98,6 @@ router.put('/:id', async(req, res) => {
   }
 })
 
-// router.put('/:id', async(req, res)=>{
-//   try{
-//     const data = _.pick(req.body,['firstName', 'surname', 'email',])
-//     const userId = req.params.id
-//     if(!_.isEmpty(data)){
-//       res.status(400).error(new UserCreateError('No data given'))
-//     }
-//     const user = await models.User.findOne({
-//       where:{
-//         id:userId
-//       }
-//     })
-//     if(!user){
-//       res.status(404).error(new NotFound('User not found'))
-//     }
-//       const updateUser = await models.User.update(data,{
-//         where:{
-//           id:userId
-//         }
-//       })
-//       const UserUpdate = await models.User.findOne({
-//         where:{
-//           id:userId
-//         }
-//       })
-//       res.status(200).json(updateUser)
-//   }catch(e){
-//     // console.log('error', e)
-//     res.status(400).error(e);
-//   }
-// })
 
 router.delete('/:id', async(req,res) =>{
   try{
