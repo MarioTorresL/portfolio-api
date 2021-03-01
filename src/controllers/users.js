@@ -24,7 +24,7 @@ router.get('/:id', async(req, res) =>{
     if(record){
       res.status(200).send(record.toJSON());
     }else{
-      res.error(new NotFound('User not found'))
+      res.status(404).error(new NotFound('User not found'))
     }
   }catch(e){
     res.status(400).error(e);
@@ -71,10 +71,81 @@ router.post('/', async(req, res) =>{
         encryptedPassword:hash,
         image: null
       })
-      res.status(200).json(record);
+      res.status(201).json(record);
     }
   }catch(e){
     res.status(400).error(e)
+  }
+})
+
+router.put('/:id', async(req, res) => {
+  try{
+      const data = _.pick(req.body, ['firstName', 'surname', 'email'])
+      if(Object.entries(data).length==0){
+        res.status(400).error(new UserCreateError('No data given'))
+      }else{
+        const user = await models.User.findByPk(req.params.id)
+        if(!user){
+          res.status(404).error(new NotFound('User not found'))
+        }else{
+          const updatepositions = await user.update(data)
+          res.json(updatepositions);
+        }
+      }
+
+  }catch(e){
+    res.status(400).error(e)
+  }
+})
+
+// router.put('/:id', async(req, res)=>{
+//   try{
+//     const data = _.pick(req.body,['firstName', 'surname', 'email',])
+//     const userId = req.params.id
+//     if(!_.isEmpty(data)){
+//       res.status(400).error(new UserCreateError('No data given'))
+//     }
+//     const user = await models.User.findOne({
+//       where:{
+//         id:userId
+//       }
+//     })
+//     if(!user){
+//       res.status(404).error(new NotFound('User not found'))
+//     }
+//       const updateUser = await models.User.update(data,{
+//         where:{
+//           id:userId
+//         }
+//       })
+//       const UserUpdate = await models.User.findOne({
+//         where:{
+//           id:userId
+//         }
+//       })
+//       res.status(200).json(updateUser)
+//   }catch(e){
+//     // console.log('error', e)
+//     res.status(400).error(e);
+//   }
+// })
+
+router.delete('/:id', async(req,res) =>{
+  try{
+    const userId = req.params.id
+    const user = await models.User.findOne({
+      where:{
+        id:userId
+      }
+    })
+    if(user){
+      await user.destroy();
+      return res.status(204).json()
+    }else{
+      return res.status(404).error(new NotFound('user not found'))
+    }
+  }catch(e){
+
   }
 })
 
