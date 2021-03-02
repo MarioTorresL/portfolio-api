@@ -133,7 +133,7 @@ describe("Users",  ()=> {
       expect(res.status).toBe(404)
     })
 
-    it('delete one token', async()=>{
+    it('delete one user', async()=>{
       const res = await request.delete('/users/'+ superId);
       expect(res.status).toBe(204)
     })

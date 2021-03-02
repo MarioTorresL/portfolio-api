@@ -22,11 +22,10 @@ router.get('/:id', async(req, res) =>{
     })
 
     if(record){
-      res.status(200).json(record)
+      res.status(200).json(record.toJSON())
     }else{
       res.status(404).error(new NotFound('Comment not found'))
     }
-
   }catch(e){
     res.status(400).error(e)
   }
@@ -37,11 +36,7 @@ router.post('/', async(req, res) =>{
 
     const data = _.pick(req.body,['title', 'comment', 'UserId'])
 
-    const user = await models.User.findOne({
-      where:{
-        id:data.UserId
-      }
-    })
+    const user = await models.User.findByPk(data.UserId)
 
     if(data){
 
@@ -60,10 +55,7 @@ router.post('/', async(req, res) =>{
 
       const comments = await models.Comment.create(data);
 
-      const getComment = await models.Comment.findOne({
-        where:{id:comments.id}
-      });
-      res.status(200).json(getComment.toJSON());
+      res.status(201).json(comments);
 
     }else{
       res.status(400).error(new CommentsCreateError('no data given'))
@@ -82,68 +74,41 @@ router.post('/', async(req, res) =>{
 
 router.put('/:id', async(req, res) =>{
   try{
-
-    const commentId = req.params.id
     const data = _.pick(req.body,['title', 'comment'])
 
-    if (!data){
+    if (Object.entries(data).length==0){
       res.status(400).error(new CommentsCreateError('No data given'))
-    }
-    if(!data.title || !data.comment){
-      res.status(400).error(new CommentsCreateError('Title or Commentis required'))
-    }
-    
-    const comment = await models.Comment.findOne({
-      where:{
-        id:commentId
+    }else{
+      if(!data.title || !data.comment){
+        res.status(400).error(new CommentsCreateError('Title or Commentis required'))
       }
-    })
 
-    if(!comment){
-      res.status(400).error(new NotFound('Comment Not Found'))
+      const comment = await models.Comment.findByPk(req.params.id)
+  
+      if(!comment){
+        res.status(404).error(new NotFound('Comment Not Found'))
+      }else{
+        const updateComment = await comment.update(data)
+        res.status(200).json(updateComment)
+      }
     }
-    const updateComment = await models.Comment.update(data,{
-      where:{
-        id:commentId
-      }
-    })
-    const commentUpdate = await models.Comment.findOne({
-      where:{
-        id:commentId
-      }
-    })
-    res.status(200).json(commentUpdate)
+
   }catch(e){
-    if (e.name === 'SequelizeUniqueConstraintError') {
-      res.error(new CommentsCreateError(e.message))
-    } else {
-      res.status(400).error(e);
-    } 
+    res.status(400).error(e)
   }
 })
 
 router.delete('/:id', async(req, res) =>{
   try{
-    const commentId = req.params.id
-    const comment = await models.Comment.findOne({
-      where:{
-        id:commentId
-      }
-    })
-    console.log('comentario encontrado', comment)
+    const comment = await models.Comment.findByPk(req.params.id)
     if(comment){
       await comment.destroy();
-      return res.status(204).json('deleted')
+      return res.status(204).json()
     }else{
       return res.status(404).error(new CommentsCreateError('Not found'));
     }
   }catch(e){
-    res.status(400).json({
-      error: {
-        type: 'Bad Request',
-        message: 'Error'
-      }
-    })
+    res.status(400).error(e)
   }
 })
 

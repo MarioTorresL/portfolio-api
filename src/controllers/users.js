@@ -101,12 +101,7 @@ router.put('/:id', async(req, res) => {
 
 router.delete('/:id', async(req,res) =>{
   try{
-    const userId = req.params.id
-    const user = await models.User.findOne({
-      where:{
-        id:userId
-      }
-    })
+    const user = await models.User.findByPk(req.params.id)
     if(user){
       await user.destroy();
       return res.status(204).json()
@@ -114,7 +109,7 @@ router.delete('/:id', async(req,res) =>{
       return res.status(404).error(new NotFound('user not found'))
     }
   }catch(e){
-
+    res.status(400).error(e)
   }
 })
 

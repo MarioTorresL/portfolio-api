@@ -13,7 +13,7 @@ try{
   config = JSON.parse(fs.readFileSync(configpath));
 
   if(require.main !== module){
-    console.log('Using config file at', configpath);
+    // console.log('Using config file at', configpath);
   }
 
 }catch(e){
