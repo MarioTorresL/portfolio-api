@@ -1,0 +1,6 @@
+#ignore node modules folder
+node_modules/
+
+#ignore config db archive
+config*.json
+
