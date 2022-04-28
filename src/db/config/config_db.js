@@ -2,24 +2,24 @@ const config = require('../../../config.json')
 
 module.exports={
   "development": {
-    "username": config.db_user,
-    "password": config.db_pass,
-    "database": config.db_name,
-    "host": config.db_host,
-    "dialect": config.db_dialect
+    "username": config.DB_USER,
+    "password": config.DB_PASS,
+    "database": config.DB_NAME,
+    "host": config.DB_HOST,
+    "dialect": config.DB_DIALECT
   },
   "test": {
-    "username": config.db_user,
-    "password": config.db_pass,
-    "database": config.db_name,
-    "host": config.db_host,
-    "dialect": config.db_dialect
+    "username": config.DB_USER,
+    "password": config.DB_PASS,
+    "database": config.DB_NAME,
+    "host": config.DB_HOST,
+    "dialect": config.DB_DIALECT
   },
   "production": {
-    "username": config.db_user,
-    "password": config.db_pass,
-    "database": config.db_name,
-    "host": config.db_host,
-    "dialect": config.db_dialect
+    "username": config.DB_USER,
+    "password": config.DB_PASS,
+    "database": config.DB_NAME,
+    "host": config.DB_HOST,
+    "dialect": config.DB_DIALECT
   }
 }
