@@ -7,9 +7,11 @@ var corsOptions = {
   origin: "http://localhost:4200"
 };
 
-//body-parser
-app.use(express.json());
 //cors
 app.use(cors(corsOptions));
+//parse request of content-type - applicatioon/json
+app.use(express.json());
+//parse request of content-type - application/x-ww-from-urlencoded
+app.use(express.urlencoded({extended:true}))
 
 module.exports= server;
