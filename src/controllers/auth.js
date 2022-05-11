@@ -4,13 +4,11 @@ const config = require("../../config.json")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-const {verufySingUp} = require("../middlewares")
+const {verufySingUp} = require("../middlewares");
 
-router.post('/singup' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)=>{
+
+router.post('/signup' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)=>{
   try{
-    // if(!res.header["Access-Control-Allow-Headers","x-access-token, Origin, Content-Type, Accept"]){
-    //   return res.status(401).send('Authorization header not present');
-    // }
     //get params
     console.log('ENTRAAAAAAA')
     const {firstName, lastName, userName, encryptedPassword, email} = req.body;
@@ -36,11 +34,8 @@ router.post('/singup' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)
   }
 })
 
-router.post('/singin', async (req, res) =>{
+router.post('/signin', async (req, res) =>{
   try{
-    if(!res.header["Access-Control-Allow-Headers","x-access-token, Origin, Content-Type, Accept"]){
-      return res.status(401).send('Authorization header not present');
-    }
     //get params
     const {userName, encryptedPassword} = req.body
 

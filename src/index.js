@@ -7,6 +7,8 @@ var corsOptions = {
   origin: "http://localhost:4200"
 };
 
+const verifyToken = require("./middlewares/authJwt")
+
 //cors
 app.use(cors(corsOptions));
 //parse request of content-type - applicatioon/json
@@ -15,6 +17,5 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 app.use('/auth', require('./controllers/auth'));
-
-app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
+app.get('/', [verifyToken],(req, res) => res.status(200).json("El servidor Funciona!"));
 module.exports= server;
