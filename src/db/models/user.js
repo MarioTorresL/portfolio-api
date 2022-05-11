@@ -23,13 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    username: {
+    userName: {
       type: DataTypes.STRING,
       allowNull: false,
       unique:true,
-      validate:{
-        notEmpty
-      }
     },
     encryptedPassword: {
       type: DataTypes.STRING,

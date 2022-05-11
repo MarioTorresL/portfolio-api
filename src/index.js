@@ -14,4 +14,7 @@ app.use(express.json());
 //parse request of content-type - application/x-ww-from-urlencoded
 app.use(express.urlencoded({extended:true}))
 
+app.use('/auth', require('./controllers/auth'));
+
+app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
 module.exports= server;

@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config.json")
-const models = require("../db/models")
 
 verifyToken = async (req, res, next)=>{
   try{
@@ -23,4 +22,4 @@ verifyToken = async (req, res, next)=>{
   }
 }
 
-module.exports = authJwt;
+module.exports = authJwt={verifyToken};

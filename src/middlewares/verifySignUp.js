@@ -1,32 +1,31 @@
 const models = require("../db/models")
 
 checkDiplicateUserOrEmail = async (req, res, next) =>{
-  try{
     //Username
-    userName = await models.User.findOne({
+    const userName = await models.User.findOne({
       where:{
-        username: req.body.username
+        userName: req.body.userName
       }
     });
-
+    console.log('username', userName)
     if(userName){
       res.status(400).send({message:'Username is already in use!'})
+      return;
     }
 
     //Email
-    email = await models.User.findOne({
+    const email = await models.User.findOne({
       where:{
-        emial: req.body.email
+        email: req.body.email
       }
     })
 
     if(email){
-res.status(400).send({message:'Email is already in use!'})
+      res.status(400).send({message:'Email is already in use!'})
+      return
     }
-
-  }catch(e){
-    res.status(400).error(e)
-  }
+    console.log('pasa todo')
+    next();
 }
 
-module.exports = verufySingUp;
+module.exports = verufySingUp= {checkDiplicateUserOrEmail} ;
