@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const mnodels = require('../db/models');
+const models = require('../db/models');
 
 router.get('/', async (req, res) =>{
   try{
     //all comments
-    const comments = await mnodels.Commets.findAll();
+    const comments = await models.Comments.findAll();
 
-    res.status(200).send(comments)
+    res.status(200).send(comments);
   }catch(e){
     res.status(400).send(e);
   }
@@ -22,13 +22,13 @@ router.post('/', async (req,res)=>{
       res.status (400).send("All input is required");
     }
 
-    const user = await mnodels.Users.findByPk(UserId)
+    const user = await models.Users.findByPk(UserId)
     if(!user){
       return res.status(400).send('User not found')
     }
 
     //create comment
-    const commentPost = await mnodels.Comments.create({comment, UserId});
+    const commentPost = await models.Comments.create({comment, UserId});
     
     res.json(commentPost.toJSON());
   }catch(e){
@@ -36,4 +36,45 @@ router.post('/', async (req,res)=>{
   }
 });
 
+router.put('/:id', async (req,res) =>{
+  try{
+  //Get params
+  const {comment} = req.body;
+
+  //Validate params
+  if(!comment){
+    return res.status(400).send('comment is required')
+  }
+
+  const commentPost = await models.Comments.findByPk(req.params.id) 
+  
+  //validate if comment exist
+  if(!commentPost){
+    return res.status(404).send('Comment not found')
+  }
+
+  //update
+  const updateComment = await commentPost.update({comment});
+
+  res.json(updateComment.toJSON());
+}catch(e){
+
+  }
+});
+
+router.delete('/:id', async(req, res) =>{
+  try{
+  const comment = await models.Comments.findByPk(req.params.id);
+  
+  //Validate if comment exist
+  if(!comment){
+    return res.status(404).send('Comment not found')
+  }
+  //Destroy comment
+  await comment.destroy();
+  return res.status(204).json()
+}catch(e){
+    return res.status(400).send(e)
+  }
+})
 module.exports = router;
