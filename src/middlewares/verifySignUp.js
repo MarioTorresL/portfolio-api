@@ -2,7 +2,7 @@ const models = require("../db/models")
 
 checkDiplicateUserOrEmail = async (req, res, next) =>{
     //Username
-    const userName = await models.User.findOne({
+    const userName = await models.Users.findOne({
       where:{
         userName: req.body.userName
       }
@@ -14,7 +14,7 @@ checkDiplicateUserOrEmail = async (req, res, next) =>{
     }
 
     //Email
-    const email = await models.User.findOne({
+    const email = await models.Users.findOne({
       where:{
         email: req.body.email
       }

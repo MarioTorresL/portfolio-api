@@ -17,5 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 app.use('/auth', require('./controllers/auth'));
+app.use('/comments',require('./controllers/comment'));
 app.get('/', [verifyToken],(req, res) => res.status(200).json("El servidor Funciona!"));
 module.exports= server;

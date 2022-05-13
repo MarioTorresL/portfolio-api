@@ -7,10 +7,9 @@ const bcrypt = require("bcryptjs");
 const {verufySingUp} = require("../middlewares");
 
 
-router.post('/signup' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)=>{
+router.post('/register' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)=>{
   try{
     //get params
-    console.log('ENTRAAAAAAA')
     const {firstName, lastName, userName, encryptedPassword, email} = req.body;
     
     //validate params
@@ -19,7 +18,7 @@ router.post('/signup' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)
     }
     
     //Save user to db
-    const user = await models.User.create({
+    const user = await models.Users.create({
       firstName: firstName,
       lastName: lastName,
       userName: userName,
@@ -34,7 +33,7 @@ router.post('/signup' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)
   }
 })
 
-router.post('/signin', async (req, res) =>{
+router.post('/login', async (req, res) =>{
   try{
     //get params
     const {userName, encryptedPassword} = req.body
@@ -44,7 +43,7 @@ router.post('/signin', async (req, res) =>{
       res.status (400).send("All input is required")
     }
 
-    const user = await models.User.findOne({
+    const user = await models.Users.findOne({
       where:{
         userName: userName
       }
