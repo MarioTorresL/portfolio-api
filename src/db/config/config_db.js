@@ -16,7 +16,11 @@ module.exports={
     "dialect": "postgres"
   },
   "production": {
-    "dburl":process.env.DATABASE_URL,
+    "username": config.DB_USER,
+    "password": config.DB_PASS,
+    "database": config.DB_NAME,
+    "host": config.DB_HOST,
+    "port": config.DB_PORT,
     "dialect": "postgres"
   }
 }
