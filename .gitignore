@@ -4,3 +4,8 @@ node_modules/
 #ignore config db archive
 config*.json
 
+#heroku recomendations
+npm-debug.log
+.DS_Store
+/*.env
+
