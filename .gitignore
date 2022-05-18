@@ -2,5 +2,5 @@
 node_modules/
 
 #ignore config db archive
-config*.json
+# config*.json
 

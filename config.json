@@ -1,0 +1,9 @@
+{
+  "DB_USER": "mario",
+  "DB_PASS":"1234",
+  "DB_NAME":"portfolio",
+  "DB_HOST":"localhost",
+  "DB_DIALECT": "postgres",
+  "PORT": 3000,
+  "SECRET_KEY": "MarioTorres-Key-6LcPns8UAAAAAPR1NyM_L-Y9kF3Rqc_T6mHS4jTV"
+}
