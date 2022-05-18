@@ -21,9 +21,7 @@ module.exports={
     "database": config.DB_NAME,
     "host": config.DB_HOST,
     "port": config.DB_PORT,
-    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
-    "operatorsAliases": false
   }
 }
 
