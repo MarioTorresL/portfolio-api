@@ -13,13 +13,13 @@ module.exports={
     "password": config.DB_PASS,
     "database": config.DB_NAME,
     "host": config.DB_HOST,
-    "dialect": config.DB_DIALECT
+    "dialect": "postgres"
   },
   "production": {
     "username": process.env.DB_USER,
     "password": process.env.DB_PASS,
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
-    "dialect": process.env.DB_DIALECT
+    "dialect": "postgres"
   }
 }
