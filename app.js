@@ -1,10 +1,6 @@
+const app = require('./src/index.js');
+require ('dotenv').config()
 
-const app = require ('./src/index.js');
-
-const {PORT} = require('./config.json');
-
-const port = process.env.PORT || PORT
-
-app.listen(port, () =>{
-  console.log(`App listening at http://localhost:${port}`)
+app.listen(process.env.PORT, () =>{
+  console.log(`App listening at http://localhost:${process.env.PORT}`)
 })

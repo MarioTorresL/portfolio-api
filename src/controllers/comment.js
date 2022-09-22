@@ -1,24 +1,26 @@
-const router = require('express').Router();
-const { Router } = require('express');
 const models = require('../db/models');
 
-const verifyToken = require('../middlewares/authJwt');
-
-router.get('/', async (req, res) =>{
+const getComments = async (req, res) =>{
   try{
     //all comments
     const comments = await models.Comments.findAll();
 
-    res.status(200).send(comments);
-  }catch(e){
-    res.status(400).send(e);
+    return res.status(200).json({
+      message: 'Get All Comments', 
+      data:comments
+    });
+  }catch(err){
+    return res.status(400).json({
+      message:'Bad Request',
+      error: err
+    });
   }
-});
+};
 
-//get comment with userId
-router.get('/:userId', [verifyToken], async(req, res)=>{
+//get comments with userId
+const getUserComments =  async(req, res)=>{
   try{
-    const userId = req.params.userId;
+    const userId = req.pauthJwtarams.userId;
 
     const comments = await models.Comments.findAll({
       where:{
@@ -27,16 +29,22 @@ router.get('/:userId', [verifyToken], async(req, res)=>{
     })
 
     if(!comments){
-      return res.status(404).send('User has no comments')
+      return res.status(404).json({message:'User has no comments'})
     }
 
-    res.status(200).send(comments)
-  }catch(e){
-    res.status(400).send(e);
+    return res.status(200).json({
+      message:'get all user comments',
+      data: comments
+    })
+  }catch(err){
+    return res.status(500).json({
+      message:'Bad Request',
+      error: err
+    });
   }
-});
+};
 
-router.post('/', [verifyToken], async (req,res)=>{
+const postComment =  async (req,res)=>{
   try{
     //Get Params
     const { comment, UserId } = req.body;
@@ -58,9 +66,9 @@ router.post('/', [verifyToken], async (req,res)=>{
   }catch(e){
     res.status(400).send(e)
   }
-});
+};
 
-router.put('/:id', [verifyToken], async (req,res) =>{
+const putComment =  async (req,res) =>{
   try{
   //Get params
   const {comment} = req.body;
@@ -84,9 +92,9 @@ router.put('/:id', [verifyToken], async (req,res) =>{
 }catch(e){
 
   }
-});
+};
 
-router.delete('/:id', [verifyToken], async(req, res) =>{
+const deleteComment =  async(req, res) =>{
   try{
   const comment = await models.Comments.findByPk(req.params.id);
   
@@ -100,5 +108,6 @@ router.delete('/:id', [verifyToken], async(req, res) =>{
 }catch(e){
     return res.status(400).send(e)
   }
-})
-module.exports = router;
+}
+
+module.exports = {getComments, getUserComments, postComment, putComment, deleteComment};

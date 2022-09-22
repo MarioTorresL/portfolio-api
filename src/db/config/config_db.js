@@ -1,29 +1,28 @@
-const config = require('../../../config.json')
+require('dotenv').config()
 
 module.exports={
   "development": {
-    "username": config.DB_USER,
-    "password": config.DB_PASS,
-    "database": config.DB_NAME,
-    "host": config.DB_HOST,
-    "dialect": config.DB_DIALECT
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASS,
+    "database": process.env.DB_NAME,
+    "host": process.env.DB_HOST,
+    "dialect": process.env.DB_DIALECT
   },
   "test": {
-    "username": config.DB_USER,
-    "password": config.DB_PASS,
-    "database": config.DB_NAME,
-    "host": config.DB_HOST,
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASS,
+    "database": process.env.DB_NAME,
+    "host": process.env.DB_HOST,
     "dialect": "postgres"
   },
   "production": {
-    "username": config.DB_USER,
-    "password": config.DB_PASS,
-    "database": config.DB_NAME,
-    "host": config.DB_HOST,
-    "port": config.DB_PORT,
-    "dialect": "postgres",
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASS,
+    "database": process.env.DB_NAME,
+    "host": process.env.DB_HOST,
+    "port": process.env.DB_PORT,
+    "dialect": process.env.DB_DIALECT,
     "use_env_variable": "DATABASE_URL"
   }
 }
 
-// "dialect": "postgres"

@@ -1,39 +1,8 @@
-const router = require('express').Router();
 const models = require("../db/models");
-const config = require("../../config.json")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-const {verufySingUp} = require("../middlewares");
-
-
-router.post('/register' ,[ verufySingUp.checkDiplicateUserOrEmail],async(req, res)=>{
-  try{
-    //get params
-    const {firstName, lastName, userName, encryptedPassword, email} = req.body;
-    
-    //validate params
-    if(!(firstName && lastName && userName && encryptedPassword && email)){
-      res.status (400).send("All input is required")
-    }
-    
-    //Save user to db
-    const user = await models.Users.create({
-      firstName: firstName,
-      lastName: lastName,
-      userName: userName,
-      encryptedPassword: bcrypt.hashSync(encryptedPassword, 8),
-      email: email,
-
-    })
-
-    res.status(200).json(user)
-  }catch(e){
-    res.status(500).send(e)
-  }
-})
-
-router.post('/login', async (req, res) =>{
+const login = async (req, res) =>{
   try{
     //get params
     const {userName, encryptedPassword} = req.body
@@ -61,7 +30,15 @@ router.post('/login', async (req, res) =>{
       return res.status(401).send({message:"Invalid Password"});
     }
 
-    const token = jwt.sign({id:user.id}, config.SECRET_KEY, {expiresIn: 86400}); //24 hours token valid
+    const token = jwt.sign(
+      {
+        id:user.id
+      }, 
+      process.env.SECRET_KEY, 
+      {
+        expiresIn: '5h'
+      }
+    );
 
     res.status(200).send({
       id: user.id,
@@ -72,6 +49,6 @@ router.post('/login', async (req, res) =>{
   }catch(e){
     res.status(500).send(e)
   }
-})
+}
 
-module.exports = router;
+module.exports = {login};

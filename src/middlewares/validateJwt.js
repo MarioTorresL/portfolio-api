@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
-const config = require("../../config.json")
 
 const verifyToken = (req, res, next)=>{
-  console.log('hello?')
   if( !req.headers['authorization'] ){
     return res.status(401).send('Authorization header not present');
   }
@@ -19,7 +17,7 @@ const verifyToken = (req, res, next)=>{
   }
 
   try{
-    const decoded = jwt.verify(accessToken, config.SECRET_KEY);
+    const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
     req.userId = decoded.id;
   }catch(e){
     return res.status(401).send('InvalidToken')
@@ -27,4 +25,4 @@ const verifyToken = (req, res, next)=>{
   return next();
 }
 
-module.exports = verifyToken;
+module.exports = {verifyToken};

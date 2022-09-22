@@ -1,22 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 
-const app = express()
-const server = require('http').Server(app);
-const cors = require('cors')
-var corsOptions = {
-  origin: "http://localhost:4200"
-};
-
-const verifyToken = require("./middlewares/authJwt")
+//create Express
+const app = express();
 
 //cors
-app.use(cors(corsOptions));
+app.use(cors());
 //parse request of content-type - applicatioon/json
 app.use(express.json());
-//parse request of content-type - application/x-ww-from-urlencoded
-app.use(express.urlencoded({extended:true}))
 
-app.use('/auth', require('./controllers/auth'));
-app.use('/comments',require('./controllers/comment'));
-app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
-module.exports= server;
+//=======routes========
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/comments', require('./routes/comments'));
+app.use('/api/users',require('./routes/users'));
+
+app.get('/api', (req, res) => res.status(200).json("El servidor Funciona!"));
+module.exports = app;
