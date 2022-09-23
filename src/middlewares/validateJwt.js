@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 
+const models = require('../database/models');
+
 const verifyToken = (req, res, next)=>{
   if( !req.headers['authorization'] ){
     return res.status(401).json({
@@ -27,7 +29,7 @@ const verifyToken = (req, res, next)=>{
 
   try{
     const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
-    req.userId = decoded.id;
+    req.me = decoded.id;
 
   }catch(e){
     return res.status(401).json({
@@ -39,4 +41,26 @@ const verifyToken = (req, res, next)=>{
   return next();
 }
 
-module.exports = {verifyToken};
+
+const isAdmin = async (req, res, next)=>{
+  try{
+    const uid = req.me;
+
+    const user = await models.Users.findByPk(uid);
+
+    if(user.role !== 2){
+      return res.status(403).json({
+        message: 'No privileges'
+      })
+    }
+
+    next();
+  }catch(err){
+    return res.status(500).json({
+      message: 'Bad Request',
+      error: err.message
+    })
+  }
+}
+
+module.exports = {verifyToken, isAdmin};

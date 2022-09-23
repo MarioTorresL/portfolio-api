@@ -2,12 +2,12 @@ const router = require('express').Router();
 const { check } = require('express-validator');
 
 const { validateParams } = require('../middlewares/validateParams');
-const { verifyToken } = require('../middlewares/validateJwt')
+const { verifyToken, isAdmin } = require('../middlewares/validateJwt')
 
 const {getUsers, postUser, putUser, deleteUser } = require('../controllers/users');
 //=== /api/comments ===
 
-router.get('/', verifyToken, getUsers);
+router.get('/', verifyToken, isAdmin, getUsers);
 
 router.post('/', 
   [
@@ -21,8 +21,8 @@ router.post('/',
   validateParams,
   postUser);
 
-router.put('/:id', putUser);
+router.put('/:id', verifyToken, putUser);
 
-router.delete('/:id', deleteUser);
+router.delete('/:id', verifyToken, isAdmin, deleteUser);
 
 module.exports = router;

@@ -20,7 +20,7 @@ const getComments = async (req, res) =>{
 //get comments with userId
 const getUserComments =  async(req, res)=>{
   try{
-    const userId = req.pauthJwtarams.userId;
+    const userId = req.params.userId;
 
     const comments = await models.Comments.findAll({
       where:{
@@ -47,9 +47,10 @@ const getUserComments =  async(req, res)=>{
 const postComment =  async (req,res)=>{
   try{
     //Get Params
-    const { comment, UserId } = req.body;
+    const { comment } = req.body;
+    const userId = req.me
 
-    const user = await models.Users.findByPk(UserId)
+    const user = await models.Users.findByPk(userId)
     if(!user){
       return res.status(404).json({
         message: 'User not found'
@@ -57,13 +58,13 @@ const postComment =  async (req,res)=>{
     }
 
     //create comment
-    const createComment = await models.Comments.create({comment, UserId});
-    
+    const createComment = await models.Comments.create({comment, UserId:userId});
+
     return res.status(201).json({
       message: 'Comment created',
       data: createComment
     });
-  }catch(e){
+  }catch(err){
     return res.status(500).json({
       message:'Bad Request',
       error: err.message
@@ -73,24 +74,35 @@ const postComment =  async (req,res)=>{
 
 const putComment =  async (req,res) =>{
   try{
-  //Get params
-  const {comment} = req.body;
+    //Get params
+    const {comment} = req.body;
+    const userId = req.me
 
-  const commentPost = await models.Comments.findByPk(req.params.id) 
-  
-  //validate if comment exist
-  if(!commentPost){
-    return res.status(404).send('Comment not found')
-  }
+    const commentPost = await models.Comments.findByPk(req.params.id) 
 
-  //update
-  const updateComment = await commentPost.update({comment});
+    //validate if comment exist
+    if(!commentPost){
+      return res.status(404).json({
+        message: 'Comment not found'
+      })
+    }
+
+    if(commentPost.UserId !== userId){
+      return res.status(400).json({
+        message: 'Unauthorized',
+        error: 'Users not match'
+      })
+    }
+
+
+    //update
+    const updateComment = await commentPost.update({comment});
 
     return res.status(200).json({
       message: 'Comment updated',
       data: updateComment
     });
-}catch(e){
+  }catch(e){
     return res.status(500).json({
       message:'Bad Request',
       error: err.message
