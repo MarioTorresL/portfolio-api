@@ -5,31 +5,41 @@ const bcrypt = require("bcryptjs");
 const login = async (req, res) =>{
   try{
     //get params
-    const {userName, encryptedPassword} = req.body
+    const {email, encryptedPassword} = req.body
 
     //validate params
-    if(!(userName && encryptedPassword)){
-      res.status (400).send("All input is required")
+    if(!email || !encryptedPassword){
+      return res.status (400).json({
+        message: 'Login Error',
+        error: 'All input is required'
+      })
     }
 
     const user = await models.Users.findOne({
       where:{
-        userName: userName
+        email: email
       }
     })
 
     //validate user
     if(!user){
-      return res.status(404).send({message: "User not found"})
+      return res.status(400).json({
+        message: 'Login error',
+        error: 'User or password invalid'
+      })
     }
 
     //Comnpare password
     const passwordIsValid = bcrypt.compareSync( encryptedPassword, user.encryptedPassword );
 
     if(!passwordIsValid){
-      return res.status(401).send({message:"Invalid Password"});
+      return res.status(400).json({
+        message: 'Login error',
+        error: 'User or password invalid'
+      });
     }
-
+    
+    //generate token
     const token = jwt.sign(
       {
         id:user.id
@@ -40,14 +50,15 @@ const login = async (req, res) =>{
       }
     );
 
-    res.status(200).send({
-      id: user.id,
-      userName: user.userName,
-      email: user.email,
+    return res.status(200).json({
+      message: 'Authenticated',
       accessToken: token
     })
-  }catch(e){
-    res.status(500).send(e)
+  }catch(err){
+    return res.status(500).json({
+      message:'Bad  Request',
+      error: err
+    })
   }
 }
 
