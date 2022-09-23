@@ -54,10 +54,11 @@ const login = async (req, res) =>{
       message: 'Authenticated',
       accessToken: token
     })
+
   }catch(err){
     return res.status(500).json({
       message:'Bad  Request',
-      error: err
+      error: err.message
     })
   }
 }
