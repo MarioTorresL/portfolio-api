@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const {verifyToken} = require('../middlewares/validateJwt');
+
 const {getComments, getUserComments, postComment, putComment, deleteComment} = require('../controllers/comment');
 
 //=== /api/comments ===

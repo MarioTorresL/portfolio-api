@@ -1,4 +1,4 @@
-const models = require('../db/models');
+const models = require('../database/models');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 
@@ -21,7 +21,8 @@ const getUsers = async(req, res) =>{
 const postUser = async (req, res) =>{
   try{
     //get params
-    const {firstName, lastName, userName, encryptedPassword, email} = req.body;
+    const {firstName, lastName, userName, encryptedPassword, email, RoleId} = req.body;
+    console.log('body', req.body)
 
     const verifyEmail = await models.Users.findOne({
       where:{
@@ -46,12 +47,21 @@ const postUser = async (req, res) =>{
       })
     }
 
+    const verifyRole = await models.Roles.findByPk(RoleId);
+
+    console.log('heeeey')
+    if(!verifyRole){
+      return res.status(404).json*{
+        message: 'Role not found'
+      }
+    }
     const user = await models.Users.create({
       firstName: firstName,
       lastName: lastName,
       userName: userName,
       encryptedPassword: bcrypt.hashSync(encryptedPassword, 8),
-      email:email.toLowerCase()
+      email:email.toLowerCase(),
+      RoleId:RoleId
     })
 
     const token = jwt.sign(

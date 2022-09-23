@@ -1,4 +1,4 @@
-const models = require('../db/models');
+const models = require('../database/models');
 
 const getComments = async (req, res) =>{
   try{
@@ -10,9 +10,9 @@ const getComments = async (req, res) =>{
       data:comments
     });
   }catch(err){
-    return res.status(400).json({
+    return res.status(500).json({
       message:'Bad Request',
-      error: err
+      error: err.message
     });
   }
 };
@@ -39,7 +39,7 @@ const getUserComments =  async(req, res)=>{
   }catch(err){
     return res.status(500).json({
       message:'Bad Request',
-      error: err
+      error: err.message
     });
   }
 };
@@ -49,22 +49,25 @@ const postComment =  async (req,res)=>{
     //Get Params
     const { comment, UserId } = req.body;
 
-    //Validate Params
-    if(!(comment && UserId)){
-      res.status (400).send("All input is required");
-    }
-
     const user = await models.Users.findByPk(UserId)
     if(!user){
-      return res.status(400).send('User not found')
+      return res.status(404).json({
+        message: 'User not found'
+      })
     }
 
     //create comment
-    const commentPost = await models.Comments.create({comment, UserId});
+    const createComment = await models.Comments.create({comment, UserId});
     
-    res.json(commentPost.toJSON());
+    return res.status(201).json({
+      message: 'Comment created',
+      data: createComment
+    });
   }catch(e){
-    res.status(400).send(e)
+    return res.status(500).json({
+      message:'Bad Request',
+      error: err.message
+    });
   }
 };
 
@@ -72,11 +75,6 @@ const putComment =  async (req,res) =>{
   try{
   //Get params
   const {comment} = req.body;
-
-  //Validate params
-  if(!comment){
-    return res.status(400).send('comment is required')
-  }
 
   const commentPost = await models.Comments.findByPk(req.params.id) 
   
@@ -88,25 +86,39 @@ const putComment =  async (req,res) =>{
   //update
   const updateComment = await commentPost.update({comment});
 
-  res.json(updateComment.toJSON());
+    return res.status(200).json({
+      message: 'Comment updated',
+      data: updateComment
+    });
 }catch(e){
-
+    return res.status(500).json({
+      message:'Bad Request',
+      error: err.message
+    });
   }
 };
 
 const deleteComment =  async(req, res) =>{
   try{
-  const comment = await models.Comments.findByPk(req.params.id);
-  
-  //Validate if comment exist
-  if(!comment){
-    return res.status(404).send('Comment not found')
-  }
-  //Destroy comment
-  await comment.destroy();
-  return res.status(204).json()
-}catch(e){
-    return res.status(400).send(e)
+    const comment = await models.Comments.findByPk(req.params.id);
+
+    //Validate if comment exist
+    if(!comment){
+      return res.status(404).json({
+        message: 'Comment not found'
+      })
+    }
+    //Destroy comment
+    await comment.destroy();
+
+    return res.status(200).json({
+      message: 'Comment deleted'
+    })
+  }catch(e){
+    return res.status(500).json({
+      message:'Bad Request',
+      error: err.message
+    });
   }
 }
 

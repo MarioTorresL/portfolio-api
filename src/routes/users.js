@@ -16,6 +16,7 @@ router.post('/',
     check('userName', 'username is required').not().isEmpty(),
     check('encryptedPassword', 'password is required minum 6 characters').not().isEmpty().isLength({min: 6}),
     check('email', 'email is required').not().isEmpty().isEmail().normalizeEmail(),
+    check('RoleId', 'role required').not().isEmpty().isNumeric(),
   ],
   validateParams,
   postUser);
