@@ -6,5 +6,5 @@ if(!process.env.NODE_ENV){
     console.log(`App listening at http://localhost:${process.env.PORT}`)
   })
 }else{
-  app.get('/api', (req, res) => res.status(200).json("El servidor Funciona!"));
+  app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
 }

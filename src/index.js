@@ -10,10 +10,10 @@ app.use(cors());
 app.use(express.json());
 
 //=======routes========
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/comments', require('./routes/comments'));
-app.use('/api/users',require('./routes/users'));
-app.use('/api/roles', require('./routes/roles'));
+app.use('/auth', require('./routes/auth'));
+app.use('/comments', require('./routes/comments'));
+app.use('/users',require('./routes/users'));
+app.use('/roles', require('./routes/roles'));
 
-app.get('/api', (req, res) => res.status(200).json("El servidor Funciona!"));
+app.get('/', (req, res) => res.status(200).json("El servidor Funciona!"));
 module.exports = app;
