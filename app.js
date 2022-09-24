@@ -1,7 +1,7 @@
 const app = require('./src/index.js');
 require ('dotenv').config()
 
-if(!process.env.DATABASE_URL){
+if(!process.env.NODE_ENV){
   app.listen(process.env.PORT, () =>{
     console.log(`App listening at http://localhost:${process.env.PORT}`)
   })
