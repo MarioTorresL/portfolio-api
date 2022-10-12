@@ -14,11 +14,10 @@ router.post('/',
     check('firstName', 'first name is required').not().isEmpty(),
     check('lastName', 'last name is required').not().isEmpty(),
     check('userName', 'username is required').not().isEmpty(),
-    check('encryptedPassword', 'password is required minum 6 characters').not().isEmpty().isLength({min: 6}),
+    check('encryptedPassword', 'password is required minum 6 characters').not().isEmpty().isLength({min: 5}),
     check('email', 'email is required').not().isEmpty().isEmail().normalizeEmail(),
-    check('RoleId', 'role required').not().isEmpty().isNumeric(),
+    validateParams,
   ],
-  validateParams,
   postUser);
 
 router.put('/:id', verifyToken, putUser);
