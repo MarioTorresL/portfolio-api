@@ -63,4 +63,32 @@ const login = async (req, res) =>{
   }
 }
 
-module.exports = {login};
+const renew = async(req, res)=>{
+  try{
+    const uid= req.me;
+
+    const user = await models.Users.findByPk(uid);
+
+    const token = jwt.sign(
+      {
+        id:user.id
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: '5h'
+      }
+    ) 
+
+    return res.status(200).json({
+      token:token,
+      user: user
+    })
+  }catch(err){
+    return res.status(500).json({
+      message: 'Bad Request',
+      error: err.message
+    })
+  }
+}
+
+module.exports = {login, renew};
