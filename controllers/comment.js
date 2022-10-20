@@ -4,7 +4,10 @@ const getComments = async (req, res) =>{
   try{
     //all comments
     const comments = await models.Comments.findAll({
-      include:[{model:models.Users}]
+      include:[{
+        model:models.Users,
+        attributes: ['email', 'userName']
+      }]
     });
 
     return res.status(200).json({
