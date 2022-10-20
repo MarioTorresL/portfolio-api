@@ -47,8 +47,7 @@ const isAdmin = async (req, res, next)=>{
     const uid = req.me;
 
     const user = await models.Users.findByPk(uid);
-
-    if(user.role !== 2){
+    if(user.RoleId !== 2){
       return res.status(403).json({
         message: 'No privileges'
       })

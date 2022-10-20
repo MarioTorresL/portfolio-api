@@ -3,7 +3,9 @@ const models = require('../database/models');
 const getComments = async (req, res) =>{
   try{
     //all comments
-    const comments = await models.Comments.findAll();
+    const comments = await models.Comments.findAll({
+      include:[{model:models.Users}]
+    });
 
     return res.status(200).json({
       message: 'Get All Comments', 
