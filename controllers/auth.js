@@ -35,7 +35,7 @@ const login = async (req, res) =>{
     if(!passwordIsValid){
       return res.status(400).json({
         message: 'Login error',
-        error: 'User or password invalid'
+        error: 'User or passwordd invalid'
       });
     }
     
