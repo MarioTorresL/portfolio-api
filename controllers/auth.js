@@ -15,9 +15,9 @@ const login = async (req, res) =>{
       })
     }
 
-    const user = await models.Users.findAll({
+    const user = await models.Users.findOne({
       where:{
-        email: email
+        email:email
       }
     })
 
