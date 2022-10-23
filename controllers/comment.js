@@ -7,7 +7,10 @@ const getComments = async (req, res) =>{
       include:[{
         model:models.Users,
         attributes: ['email', 'userName']
-      }]
+      }],
+      order: [
+            ['createdAt', 'DESC'],
+        ]
     });
 
     return res.status(200).json({
