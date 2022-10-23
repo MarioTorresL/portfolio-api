@@ -1,4 +1,4 @@
-const models = require("../database/models");
+const models = require('../database/models');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -20,10 +20,11 @@ const login = async (req, res) =>{
         email:email
       }
     })
+      
+    console.log('usuario', user, 'email', email)
 
     //validate user
     if(!user){
-      console.log('no encuentra el usuario', user, 'email', email)
       return res.status(400).json({
         message: 'Login error',
         error: 'User or password invalid'
