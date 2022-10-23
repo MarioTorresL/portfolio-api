@@ -15,7 +15,7 @@ const login = async (req, res) =>{
       })
     }
 
-    const user = await models.Users.findOne({
+    const user = await models.Users.findAll({
       where:{
         email: email
       }
@@ -23,7 +23,7 @@ const login = async (req, res) =>{
 
     //validate user
     if(!user){
-      console.log('no encuentra el usuario')
+      console.log('no encuentra el usuario', user, 'email', email)
       return res.status(400).json({
         message: 'Login error',
         error: 'User or password invalid'
