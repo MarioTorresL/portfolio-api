@@ -23,6 +23,7 @@ const login = async (req, res) =>{
 
     //validate user
     if(!user){
+      console.log('no encuentra el usuario')
       return res.status(400).json({
         message: 'Login error',
         error: 'User or password invalid'
