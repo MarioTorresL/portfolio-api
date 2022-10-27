@@ -20,8 +20,6 @@ const login = async (req, res) =>{
         email:email
       }
     })
-      
-    console.log('usuario', user, 'email', email)
 
     //validate user
     if(!user){
@@ -83,7 +81,13 @@ const renew = async(req, res)=>{
 
     return res.status(200).json({
       token:token,
-      user: user
+      user: {
+        id:user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userName: user.userName
+      }
     })
   }catch(err){
     return res.status(500).json({

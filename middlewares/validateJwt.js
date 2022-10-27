@@ -30,6 +30,7 @@ const verifyToken = (req, res, next)=>{
   try{
     const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
     req.me = decoded.id;
+    console.log(decoded)
 
   }catch(e){
     return res.status(401).json({
