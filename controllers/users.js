@@ -27,9 +27,10 @@ const postUser = async (req, res) =>{
 
     const verifyEmail = await models.Users.findOne({
       where:{
-        email: email
+        email:email
       }
     })
+
     if(verifyEmail){
       return res.status(400).json({
         message:'Email is registered'
