@@ -60,7 +60,7 @@ const postUser = async (req, res) =>{
       lastName: lastName,
       userName: userName,
       encryptedPassword: bcrypt.hashSync(encryptedPassword, 8),
-      email:email.toLowerCase(),
+      email:email,
       RoleId:RoleId
     })
 

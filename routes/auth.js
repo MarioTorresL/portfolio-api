@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {check} = require('express-validator');
+const {check} = require('express-validator')
 
 const {validateParams} = require('../middlewares/validateParams');
 const { verifyToken } = require('../middlewares/validateJwt');
