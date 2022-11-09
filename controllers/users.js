@@ -56,6 +56,7 @@ const postUser = async (req, res) =>{
         message: 'Role not found'
       }
     }
+    console.log('user email', email)
     const user = await models.Users.create({
       firstName: firstName,
       lastName: lastName,
@@ -64,6 +65,8 @@ const postUser = async (req, res) =>{
       email:email,
       RoleId:RoleId
     })
+
+    console.log('user', user)
 
     const token = jwt.sign(
       {
