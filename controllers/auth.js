@@ -17,7 +17,7 @@ const login = async (req, res) =>{
 
     const user = await models.Users.findOne({
       where:{
-        email:email
+        email
       }
     })
 
@@ -25,7 +25,7 @@ const login = async (req, res) =>{
     if(!user){
       return res.status(400).json({
         message: 'Login error',
-        error: 'User or password invalid'
+        error: 'User or password invalid (email)'
       })
     }
 
