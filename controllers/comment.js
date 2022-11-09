@@ -33,7 +33,10 @@ const getUserComments =  async(req, res)=>{
     const comments = await models.Comments.findAll({
       where:{
         UserId : userId
-      }
+      },
+      order: [
+            ['createdAt', 'DESC'],
+        ]
     })
 
     if(!comments){
