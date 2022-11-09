@@ -27,6 +27,6 @@ router.put('/:id',
   ],
   verifyToken, putComment);
 
-router.delete(':id', verifyToken, deleteComment);
+router.delete('/:id', verifyToken, deleteComment);
 
 module.exports = router;

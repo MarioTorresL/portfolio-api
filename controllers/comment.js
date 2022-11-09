@@ -124,6 +124,13 @@ const putComment =  async (req,res) =>{
 const deleteComment =  async(req, res) =>{
   try{
     const comment = await models.Comments.findByPk(req.params.id);
+    
+    if(req.me !== comment.UserId){
+      return res.status(401).json({
+        message:'Unauthorized',
+        error:'Users not match'
+      })
+    }
 
     //Validate if comment exist
     if(!comment){
