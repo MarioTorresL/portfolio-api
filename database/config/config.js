@@ -22,7 +22,7 @@ module.exports={
     "host": process.env.DB_HOST,
     "port": process.env.DB_PORT,
     "dialect": process.env.DB_DIALECT,
-    "use_env_variable": "DATABASE_URL"
+    "DATABASE_URL": process.env.DATABASE_URL
   }
 }
 
