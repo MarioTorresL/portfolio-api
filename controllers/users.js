@@ -30,6 +30,7 @@ const postUser = async (req, res) =>{
         email:email
       }
     })
+    cosnole.log('verify-email', verifyEmail)
 
     if(verifyEmail){
       return res.status(400).json({
@@ -81,6 +82,7 @@ const postUser = async (req, res) =>{
     })
 
   }catch(err){
+    console.log('error', err)
     return res.status(500).json({
       message:'Bad Request',
       error:err
