@@ -30,7 +30,7 @@ const postUser = async (req, res) =>{
         email:email
       }
     })
-    cosnole.log('verify-email', verifyEmail)
+    console.log('verify-email', verifyEmail)
 
     if(verifyEmail){
       return res.status(400).json({
